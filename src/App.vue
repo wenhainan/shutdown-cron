@@ -38,6 +38,20 @@
       </div>
     </div>
     
+    <div class="custom-time">
+      <h3>自定义时刻</h3>
+      <div class="input-group time-picker">
+        <select v-model="customHour" :disabled="isTimerRunning">
+          <option v-for="hour in 23" :key="hour" :value="hour">{{ hour.toString().padStart(2, '0') }}</option>
+        </select>
+        <span>:</span>
+        <select v-model="customMinute" :disabled="isTimerRunning">
+          <option v-for="minute in 59" :key="minute" :value="minute">{{ minute.toString().padStart(2, '0') }}</option>
+        </select>
+        <button @click="startCustomTimeShutdown" :disabled="isTimerRunning">设置</button>
+      </div>
+    </div>
+    
     <div class="control-button">
       <button @click="cancelShutdown" :disabled="!isTimerRunning" class="cancel-btn">
         取消关机
@@ -54,6 +68,8 @@ export default {
       isTimerRunning: false,
       remainingTime: 0,
       customMinutes: 0,
+      customHour: new Date().getHours(),
+      customMinute: new Date().getMinutes() + 1,
       countdownInterval: null
     }
   },
@@ -66,6 +82,24 @@ export default {
       if (this.customMinutes > 0) {
         await this.startShutdown(this.customMinutes)
       }
+    },
+    
+    async startCustomTimeShutdown() {
+      const now = new Date()
+      const shutdownTime = new Date()
+      shutdownTime.setHours(this.customHour)
+      shutdownTime.setMinutes(this.customMinute)
+      shutdownTime.setSeconds(0)
+      
+      // 如果设置的时间已经过去，则设置为明天
+      if (shutdownTime <= now) {
+        shutdownTime.setDate(shutdownTime.getDate() + 1)
+      }
+      
+      const diffMs = shutdownTime - now
+      const diffMinutes = Math.ceil(diffMs / (1000 * 60))
+      
+      await this.startShutdown(diffMinutes)
     },
     
     async startShutdown(minutes) {
@@ -214,6 +248,24 @@ button:disabled {
 .input-group {
   display: flex;
   gap: 10px;
+}
+
+.input-group.time-picker {
+  align-items: center;
+}
+
+.time-picker select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  min-width: 70px;
+}
+
+.time-picker span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
 }
 
 input {
