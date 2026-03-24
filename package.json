@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "electron:dev": "vite build && electron . --enable-logging --v=1",
     "electron:build": "vite build && electron-builder",
-    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite",
+    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules",
     "electron:installer": "node build-installer.js"
   },
   "dependencies": {
@@ -40,27 +40,15 @@
       "preload.js"
     ],
     "win": {
-      "icon": "public/logo.png",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
+      "icon": "public/logo.ico",
+      "target": "nsis"
     },
     "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "installerIcon": "public/logo.png",
-      "uninstallerIcon": "public/logo.png",
-      "installerHeaderIcon": "public/logo.png"
+      "oneClick": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "定时关机软件"
     },
-    "compression": "maximum",
-    "publish": {
-      "provider": "generic",
-      "url": "http://localhost:8080/"
-    }
+    "compression": "maximum"
   }
 }
