@@ -1,0 +1,10 @@
+{
+    "debug.allowBreakpointsEverywhere": true,
+    "debug.saveBeforeStart": "always",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "electron.enableRemoteModule": false,
+    "electron.contextIsolation": true
+}

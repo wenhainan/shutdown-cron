@@ -5,18 +5,64 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "electron",
+            "name": "Electron: Main",
+            "type": "node",
             "request": "launch",
-            "name": "Launch Electron",
-            "appDir": "${workspaceFolder}/dist",
-            "sourceMaps": true
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/main.js",
+            "args": ["--enable-logging"],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "sourceMaps": true,
+            "outputCapture": "std"
         },
         {
+            "name": "Electron: Renderer",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "webRoot": "${workspaceFolder}/src",
+            "timeout": 30000,
+            "sourceMaps": true,
+            "urlFilter": "file://*"
+        },
+        {
+            "name": "Electron: Dev",
             "type": "node-terminal",
-            "name": "Run Script: electron:dev",
             "request": "launch",
             "command": "npm run electron:dev",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "presentation": {
+                "group": "dev",
+                "order": 1
+            }
+        },
+        {
+            "name": "Electron: Debug",
+            "type": "electron",
+            "request": "launch",
+            "appDir": "${workspaceFolder}",
+            "main": "${workspaceFolder}/main.js",
+            "sourceMaps": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "protocol": "inspector",
+            "webPreferences": {
+                "contextIsolation": true,
+                "nodeIntegration": false,
+                "preload": "${workspaceFolder}/preload.js"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Electron: All",
+            "configurations": ["Electron: Main", "Electron: Renderer"],
+            "presentation": {
+                "order": 1
+            }
         }
     ]
 }

@@ -15,7 +15,8 @@ function createWindow() {
       contextIsolation: true
     },
     resizable: false,
-    title: '定时关机软件'
+    title: '定时关机软件',
+    icon: path.join(__dirname, 'logo.png')
   });
 
   if (process.env.VITE_DEV_SERVER_URL) {
