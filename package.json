@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "electron:dev": "vite build && electron . --enable-logging --v=1",
     "electron:build": "vite build && electron-builder",
-    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --icon=public/logo.png"
+    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --icon=public/logo.png",
+    "electron:installer": "node build-installer.js"
   },
   "dependencies": {
     "vue": "^3.3.4"
@@ -19,6 +20,7 @@
     "electron": "^26.0.0",
     "electron-builder": "^24.6.4",
     "electron-packager": "^17.1.2",
+    "electron-winstaller": "^5.4.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "vue-tsc": "^1.8.11"
@@ -34,12 +36,31 @@
       "main.js",
       "index.html",
       "dist/**/*",
-      "public/**/*"
+      "public/**/*",
+      "preload.js"
     ],
     "win": {
       "icon": "public/logo.png",
-      "target": "portable"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
     },
-    "compression": "maximum"
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/logo.png",
+      "uninstallerIcon": "public/logo.png",
+      "installerHeaderIcon": "public/logo.png"
+    },
+    "compression": "maximum",
+    "publish": {
+      "provider": "generic",
+      "url": "http://localhost:8080/"
+    }
   }
 }
