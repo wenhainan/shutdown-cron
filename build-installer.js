@@ -14,7 +14,9 @@ async function createInstaller() {
       description: '定时关机软件',
       version: require('./package.json').version,
       noMsi: false,
-      setupExe: '定时关机软件安装包.exe'
+      setupExe: '定时关机软件安装包.exe',
+      createDesktopShortcut: true,
+      createStartMenuShortcut: true
     });
 
     console.log('Windows安装包生成成功！');

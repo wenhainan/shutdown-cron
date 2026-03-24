@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "electron:dev": "vite build && electron . --enable-logging --v=1",
     "electron:build": "vite build && electron-builder",
-    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --icon=public/logo.png",
+    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite",
     "electron:installer": "node build-installer.js"
   },
   "dependencies": {
