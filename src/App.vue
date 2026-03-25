@@ -57,6 +57,12 @@
         取消关机
       </button>
     </div>
+    
+    <div class="control-button">
+      <button @click="exitApp" class="exit-btn">
+        退出软件
+      </button>
+    </div>
   </div>
 </template>
 
@@ -144,6 +150,14 @@ export default {
       const mins = Math.floor(seconds / 60)
       const secs = seconds % 60
       return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+    },
+    
+    async exitApp() {
+      try {
+        await window.electronAPI.exitApp()
+      } catch (error) {
+        console.error('退出应用失败:', error)
+      }
     }
   },
   
@@ -288,5 +302,15 @@ input {
 
 .cancel-btn:hover {
   background-color: #d32f2f;
+}
+
+.exit-btn {
+  width: 100%;
+  background-color: #9e9e9e;
+  margin-top: 10px;
+}
+
+.exit-btn:hover {
+  background-color: #757575;
 }
 </style>

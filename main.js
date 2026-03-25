@@ -1,14 +1,24 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+/*
+ * @Author: 闻海南 whndeweilai@163.com
+ * @Date: 2026-03-25 08:49:09
+ * @LastEditors: 闻海南 whndeweilai@163.com
+ * @LastEditTime: 2026-03-25 09:19:35
+ * @FilePath: \shutdown-cron\main.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+const { app, BrowserWindow, ipcMain, Tray, Menu, shell } = require('electron');
 const path = require('path');
+const os = require('os');
 const { exec } = require('child_process');
 
 let mainWindow;
+let tray;
 let shutdownTimer = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 500,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -16,7 +26,10 @@ function createWindow() {
     },
     resizable: false,
     title: '定时关机软件',
-    icon: path.join(__dirname, 'logo.png')
+    icon: path.join(__dirname, 'logo.png'),
+    frame: false,  // 去掉原生工具栏
+    transparent: false,  // 非透明窗口
+    center: true  // 窗口居中显示
   });
 
   if (process.env.VITE_DEV_SERVER_URL) {
@@ -27,17 +40,76 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(createWindow);
+// 创建系统托盘
+function createTray() {
+  // 使用默认图标（如果没有logo.png，Electron会使用默认图标）
+  const iconPath = path.join(__dirname, 'logo.png');
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+  tray = new Tray(iconPath);
+
+  // 创建右键菜单
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: '关于',
+      click: () => {
+        shell.openExternal('https://example.com') // 可以替换为关于窗口
+      }
+    },
+    {
+      label: '退出',
+      click: () => {
+        if (shutdownTimer) {
+          cancelShutdown();
+        }
+        app.quit();
+      }
+    }
+  ]);
+
+  // 设置托盘提示
+  tray.setToolTip('定时关机软件');
+
+  // 设置右键菜单
+  tray.setContextMenu(contextMenu);
+
+  // 点击托盘图标切换窗口显示/隐藏
+  tray.on('click', () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+    }
+  });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  createTray();
+});
+
+// 窗口关闭事件，改为最小化到托盘
+app.on('window-all-closed', (event) => {
+  // 阻止默认行为，不退出应用
+  event.preventDefault();
+
+  // 隐藏主窗口
+  if (mainWindow) {
+    mainWindow.hide();
   }
 });
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  } else if (mainWindow) {
+    mainWindow.show();
+  }
+});
+
+// 当所有窗口都隐藏时，保持应用运行
+app.on('before-quit', () => {
+  if (shutdownTimer) {
+    cancelShutdown();
   }
 });
 
@@ -68,7 +140,7 @@ function cancelShutdown() {
     clearTimeout(shutdownTimer);
     shutdownTimer = null;
   }
-  
+
   // 取消系统关机命令
   exec('shutdown /a', (error, stdout, stderr) => {
     if (error) {
@@ -91,4 +163,13 @@ ipcMain.handle('cancel-shutdown', () => {
 
 ipcMain.handle('get-timer-status', () => {
   return shutdownTimer ? true : false;
+});
+
+// 退出应用
+ipcMain.handle('exit-app', () => {
+  if (shutdownTimer) {
+    cancelShutdown();
+  }
+  app.quit();
+  return true;
 });
