@@ -1,7 +1,7 @@
 {
   "name": "shutdown-cron",
   "version": "1.0.0",
-  "description": "Electron + Vue 3 定时关机软件",
+  "description": "海豚定时关机 ,轻量级高颜值实用定时关机软件 , 开发者邮箱 whndeweilai@163.com",
   "main": "main.js",
   "scripts": {
     "dev": "vite",
@@ -47,7 +47,7 @@
       "oneClick": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "定时关机软件"
+      "shortcutName": "海豚定时关机"
     },
     "compression": "maximum"
   }

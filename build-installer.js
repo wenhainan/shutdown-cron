@@ -8,13 +8,13 @@ async function createInstaller() {
     await createWindowsInstaller({
       appDirectory: path.join(__dirname, 'dist', 'shutdown-cron-win32-x64'),
       outputDirectory: path.join(__dirname, 'dist', 'installer'),
-      authors: 'Your Name',
+      authors: '闻海南 whndeweilai@163.com',
       exe: 'shutdown-cron.exe',
       name: 'ShutdownCron',
-      description: '定时关机软件',
+      description: '海豚定时关机 ,轻量级高颜值实用定时关机软件',
       version: require('./package.json').version,
       noMsi: false,
-      setupExe: '定时关机软件安装包.exe',
+      setupExe: '海豚定时关机安装包.exe',
       createDesktopShortcut: true,
       createStartMenuShortcut: true
     });
