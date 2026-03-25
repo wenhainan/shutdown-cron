@@ -52,7 +52,7 @@ function createTray() {
     {
       label: '关于',
       click: () => {
-        shell.openExternal('https://example.com') // 可以替换为关于窗口
+        shell.openExternal('https://www.waytomilky.com/archives/4532.html') // 可以替换为关于窗口
       }
     },
     {

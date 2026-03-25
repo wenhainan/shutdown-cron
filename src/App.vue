@@ -74,7 +74,7 @@
       </button>
     </div>
     
-    <div class="control-button">
+    <div class="control-button" v-if="showExitButton">
       <button @click="exitApp" class="exit-btn">
         退出软件
       </button>
@@ -93,7 +93,8 @@ export default {
       customMinutes: 0,
       customHour: new Date().getHours(),
       customMinute: new Date().getMinutes() + 1,
-      countdownInterval: null
+      countdownInterval: null,
+      showExitButton: false
     }
   },
   methods: {
