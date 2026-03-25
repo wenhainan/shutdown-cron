@@ -2,7 +2,7 @@
  * @Author: 闻海南 whndeweilai@163.com
  * @Date: 2026-03-25 08:49:09
  * @LastEditors: 闻海南 whndeweilai@163.com
- * @LastEditTime: 2026-03-25 09:19:35
+ * @LastEditTime: 2026-03-25 09:29:37
  * @FilePath: \shutdown-cron\main.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -171,5 +171,31 @@ ipcMain.handle('exit-app', () => {
     cancelShutdown();
   }
   app.quit();
+  return true;
+});
+
+// 窗口控制
+ipcMain.handle('minimize-window', () => {
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
+  return true;
+});
+
+ipcMain.handle('maximize-window', () => {
+  if (mainWindow) {
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
+  }
+  return true;
+});
+
+ipcMain.handle('close-window', () => {
+  if (mainWindow) {
+    mainWindow.hide(); // 最小化到托盘
+  }
   return true;
 });

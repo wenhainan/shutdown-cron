@@ -1,6 +1,22 @@
 <template>
   <div class="app-container">
-    <h1>定时关机软件</h1>
+    <!-- 自定义工具栏 -->
+    <div class="title-bar">
+      <div class="title">定时关机软件</div>
+      <div class="title-buttons">
+        <button class="title-btn minimize-btn" @click="minimizeWindow">
+          <span class="btn-icon">—</span>
+        </button>
+        <button class="title-btn maximize-btn" @click="maximizeWindow">
+          <span class="btn-icon">□</span>
+        </button>
+        <button class="title-btn close-btn" @click="closeWindow">
+          <span class="btn-icon">×</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="content">
     
     <div class="timer-display">
       <div class="time" v-if="remainingTime > 0">
@@ -63,6 +79,7 @@
         退出软件
       </button>
     </div>
+  </div>
   </div>
 </template>
 
@@ -158,6 +175,30 @@ export default {
       } catch (error) {
         console.error('退出应用失败:', error)
       }
+    },
+    
+    async minimizeWindow() {
+      try {
+        await window.electronAPI.minimizeWindow()
+      } catch (error) {
+        console.error('最小化窗口失败:', error)
+      }
+    },
+    
+    async maximizeWindow() {
+      try {
+        await window.electronAPI.maximizeWindow()
+      } catch (error) {
+        console.error('最大化窗口失败:', error)
+      }
+    },
+    
+    async closeWindow() {
+      try {
+        await window.electronAPI.closeWindow()
+      } catch (error) {
+        console.error('关闭窗口失败:', error)
+      }
     }
   },
   
@@ -174,6 +215,87 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+  .title-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: #f0f0f0;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  -webkit-app-region: drag;
+  cursor: move;
+  border-bottom: 1px solid #d0d0d0;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+  .title {
+  font-size: 13px;
+  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 8px;
+}
+
+  .title-buttons {
+  display: flex;
+  -webkit-app-region: no-drag;
+}
+
+  .title-btn {
+  width: 45px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: #000;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-weight: lighter;
+}
+
+  .title-btn:hover {
+  background-color: #e5e5e5;
+}
+
+  .close-btn:hover {
+  background-color: #e81123;
+  color: white;
+}
+
+  .btn-icon {
+  font-size: 12px;
+  font-weight: lighter;
+  font-family: Arial, sans-serif;
+}
+
+  .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-top: 52px; /* 为工具栏留出空间 */
+  box-sizing: border-box;
+}
+
+  .app-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  overflow: hidden;
 }
 
 body {
