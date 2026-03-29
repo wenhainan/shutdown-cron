@@ -22,7 +22,7 @@
     "electron-packager": "^17.1.2",
     "electron-winstaller": "^5.4.0",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9",
+    "vite": "^5.4.21",
     "vue-tsc": "^1.8.11"
   },
   "author": "闻海南",
