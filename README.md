@@ -145,4 +145,6 @@ MIT License
 - 开发者 闻海南
 - 联系方式 whndeweilai@163.com
 - 支持赞助、定制化服务
+
+## 收款码
 ![alt text](public/pay.png)
