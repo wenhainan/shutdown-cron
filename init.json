@@ -8,8 +8,6 @@
     "build": "vite build",
     "electron:dev": "vite build && electron .",
     "electron:build": "vite build && electron-builder",
-    "electron:packager": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules --extra-resource=dist --icon=public/app.ico",
-    "electron:portable": "vite build && electron-builder --win portable",
     "dist": "vite build && electron-builder"
   },
   "dependencies": {
@@ -44,12 +42,6 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "portable",
           "arch": [
             "x64"
           ]
