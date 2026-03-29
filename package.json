@@ -49,7 +49,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "海豚定时关机"
+      "shortcutName": "海豚定时关机",
+      "installerIcon": "public/logo.ico",
+      "uninstallerIcon": "public/logo.ico"
     },
     "compression": "maximum"
   }
