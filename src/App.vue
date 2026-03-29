@@ -30,7 +30,7 @@
         正在等待关机...
       </div>
       <div class="status" v-else>
-        就绪
+        暂未设置
       </div>
     </div>
     
@@ -95,8 +95,16 @@ export default {
       isTimerRunning: false,
       remainingTime: 0,
       customMinutes: 0,
-      customHour: new Date().getHours(),
-      customMinute: new Date().getMinutes() + 1,
+      customHour: (() => {
+        const now = new Date()
+        const minutes = now.getMinutes() + 15
+        return minutes >= 60 ? now.getHours() + 1 : now.getHours()
+      })(),
+      customMinute: (() => {
+        const now = new Date()
+        const minutes = now.getMinutes() + 15
+        return minutes >= 60 ? minutes - 60 : minutes
+      })(),
       countdownInterval: null,
       showExitButton: false
     }
