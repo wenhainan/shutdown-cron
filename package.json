@@ -41,7 +41,8 @@
     ],
     "win": {
       "icon": "public/logo.ico",
-      "target": "nsis"
+      "target": "nsis",
+      "signAndEditExecutable": false
     },
     "nsis": {
       "oneClick": false,
