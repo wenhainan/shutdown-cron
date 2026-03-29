@@ -68,7 +68,7 @@ function createWindow() {
       },
       resizable: false,
       title: '定时关机软件',
-      icon: path.join(__dirname, 'public', 'logo.ico'),
+      icon: path.join(__dirname, 'public', 'app.ico'),
       frame: false,  // 去掉原生工具栏
       transparent: false,  // 非透明窗口
       center: true  // 窗口居中显示
@@ -127,8 +127,8 @@ function createTray() {
   try {
     log('Creating tray...');
 
-    // 使用默认图标（如果没有logo.ico，Electron会使用默认图标）
-    const iconPath = path.join(__dirname, 'public', 'logo.ico');
+    // 使用默认图标（如果没有app.ico，Electron会使用默认图标）
+    const iconPath = path.join(__dirname, 'public', 'app.ico');
     log(`Tray icon path: ${iconPath}, exists: ${fs.existsSync(iconPath)}`);
 
     tray = new Tray(iconPath);

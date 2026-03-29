@@ -6,11 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "electron:dev": "vite build && electron . --enable-logging --v=1",
+    "electron:dev": "vite build && electron .",
     "electron:build": "vite build && electron-builder",
-    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules --extra-resource=dist --icon=public/logo.ico",
-    "electron:installer": "node build-installer.js"
+    "dist": "vite build && electron-builder"
   },
   "dependencies": {
     "vue": "^3.3.4"
@@ -30,7 +28,7 @@
     "appId": "com.shutdowncron.app",
     "productName": "海豚定时关机",
     "directories": {
-      "output": "dist"
+      "output": "dist_electron"
     },
     "files": [
       "main.js",
@@ -40,18 +38,30 @@
       "preload.js"
     ],
     "win": {
-      "icon": "public/logo.ico",
-      "target": "nsis",
-      "signAndEditExecutable": false
+      "icon": "public/app.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false,
+      "publisherName": "闻海南"
     },
     "nsis": {
+      "guid": "a1b2c3d4-e5f6-47a8-b9c0-112233445566",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "海豚定时关机",
-      "installerIcon": "public/logo.ico",
-      "uninstallerIcon": "public/logo.ico"
+      "installerIcon": "public/app.ico",
+      "uninstallerIcon": "public/app.ico",
+      "installerHeaderIcon": "public/app.ico",
+      "menuCategory": "海豚定时关机",
+      "artifactName": "${productName}_Setup_${version}.${ext}"
     },
     "compression": "maximum"
   }

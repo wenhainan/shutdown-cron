@@ -4,3 +4,4 @@ dist/*
 build
 debug.log
 dist-packager
+/dist_electron
