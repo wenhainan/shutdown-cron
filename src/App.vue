@@ -17,7 +17,11 @@
     </div>
     
     <div class="content">
-    
+      
+    <div class="logo-container">
+      <img src="/app.ico" alt="海豚定时关机" class="app-logo">
+    </div>
+
     <div class="timer-display">
       <div class="time" v-if="remainingTime > 0">
         {{ formatTime(remainingTime) }}
@@ -41,7 +45,7 @@
     </div>
     
     <div class="custom-time">
-      <h3>自定义时间</h3>
+      <h3>自定义倒计时(分钟)</h3>
       <div class="input-group">
         <input 
           type="number" 
@@ -55,7 +59,7 @@
     </div>
     
     <div class="custom-time">
-      <h3>自定义时刻</h3>
+      <h3>关机时刻设置</h3>
       <div class="input-group time-picker">
         <select v-model="customHour" :disabled="isTimerRunning">
           <option v-for="hour in 23" :key="hour" :value="hour">{{ hour.toString().padStart(2, '0') }}</option>
@@ -318,6 +322,18 @@ h1 {
   color: #333;
   margin-bottom: 30px;
   font-size: 28px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.app-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
 
 .timer-display {
