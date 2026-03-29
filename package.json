@@ -1,6 +1,6 @@
 {
   "name": "shutdown-cron",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "海豚定时关机 ,轻量级高颜值实用定时关机软件 , 开发者邮箱 whndeweilai@163.com",
   "main": "main.js",
   "scripts": {
