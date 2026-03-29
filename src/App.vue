@@ -17,7 +17,7 @@
     </div>
     
     <div class="content">
-      
+    
     <div class="logo-container">
       <img src="/app.ico" alt="海豚定时关机" class="app-logo">
     </div>
@@ -83,6 +83,56 @@
         退出软件
       </button>
     </div>
+    
+    <div class="about-container">
+      <button class="about-link" @click="showAboutModal = true">关于@海豚定时关机</button>
+    </div>
+  </div>
+  
+  <!-- 关于弹窗 -->
+  <div class="modal-overlay" v-if="showAboutModal" @click="showAboutModal = false">
+    <div class="modal-content" @click.stop>
+      <div class="modal-header">
+        <h3>关于海豚定时关机</h3>
+        <button class="close-btn" @click="showAboutModal = false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="about-section">
+          <h4>软件信息</h4>
+          <p><strong>版本：</strong>v1.1.0</p>
+          <p><strong>名称：</strong>海豚定时关机</p>
+          <p><strong>开发：</strong>闻海南</p>
+          <p><strong>赞助：</strong><a href="https://www.waytomilky.com/archives/4532.html" target="_blank">赞助支持</a></p>
+        </div>
+        
+        <div class="about-section">
+          <h4>功能介绍</h4>
+          <p>海豚定时关机是一款简洁易用的定时关机工具，支持预设时间和自定义倒计时功能。</p>
+          <ul>
+            <li>支持预设时间（5分钟、10分钟、30分钟、1小时）</li>
+            <li>支持自定义倒计时和自定义时刻</li>
+            <li>系统托盘常驻，可随时关闭窗口</li>
+            <li>单实例应用，防止重复打开</li>
+          </ul>
+        </div>
+        
+        <div class="about-section">
+          <h4>赞助支持</h4>
+          <p>如果您觉得这款软件对您有帮助，欢迎赞助支持！</p>
+          <p>您的支持是我继续开发的动力！</p>
+        </div>
+        
+        <div class="about-section">
+          <h4>联系我们</h4>
+          <p><strong>邮箱：</strong>whndeweilai@163.com</p>
+          <p><strong>Q Q：</strong>610176732</p>
+          <p><strong>网站：</strong><a href="https://www.waytomilky.com" target="_blank">https://www.waytomilky.com</a></p>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button class="ok-btn" @click="showAboutModal = false">确定</button>
+      </div> -->
+    </div>
   </div>
   </div>
 </template>
@@ -106,7 +156,8 @@ export default {
         return minutes >= 60 ? minutes - 60 : minutes
       })(),
       countdownInterval: null,
-      showExitButton: false
+      showExitButton: false,
+      showAboutModal: false
     }
   },
   methods: {
@@ -339,9 +390,32 @@ h1 {
 }
 
 .app-logo {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
+}
+
+.about-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 30px;
+}
+
+.about-link {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.about-link:hover {
+  background-color: rgba(76, 175, 80, 0.1);
 }
 
 .timer-display {
@@ -460,5 +534,126 @@ input {
 
 .exit-btn:hover {
   background-color: #757575;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.modal-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.modal-header .close-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.about-section {
+  margin-bottom: 20px;
+}
+
+.about-section h4 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.about-section p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.about-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.about-section li {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.about-section a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.about-section a:hover {
+  text-decoration: underline;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ok-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ok-btn:hover {
+  background-color: #45a049;
 }
 </style>
