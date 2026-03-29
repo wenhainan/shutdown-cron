@@ -25,37 +25,13 @@
 1. 下载 `海豚定时关机 1.1.0.exe` 文件
 2. 双击运行即可，无需安装
 
-### 开发环境
+## 界面预览
+![alt text](public/home.png)
 
-1. 安装依赖
-```bash
-npm install
-```
+![alt text](public/cron.png)
 
-2. 开发模式运行
-```bash
-npm run dev
-```
 
-3. 构建生产版本
-```bash
-npm run build
-```
 
-4. 启动 Electron 开发模式
-```bash
-npm run electron:dev
-```
-
-5. 打包免安装版本（单个exe文件）
-```bash
-npm run electron:portable
-```
-
-6. 打包安装包版本
-```bash
-npm run dist
-```
 
 ## 目录结构
 
@@ -71,6 +47,8 @@ shutdown-cron/
 ├── package.json     # 项目配置
 └── README.md        # 项目说明
 ```
+
+
 
 ## 使用说明
 
@@ -106,30 +84,6 @@ shutdown-cron/
 npm run electron:portable
 ```
 
-生成的文件位于 `dist_electron\海豚定时关机 1.1.0.exe`
-
-### 安装包版本
-
-使用 `electron-builder` 的 `nsis` 目标打包安装包：
-```bash
-npm run dist
-```
-
-生成的文件位于 `dist_electron\海豚定时关机_Setup_1.1.0.exe`
-
-## 配置说明
-
-### 修改图标
-
-将 `public/app.ico` 替换为您的自定义图标文件。
-
-### 修改应用名称
-
-在 `package.json` 中修改 `productName` 字段。
-
-### 修改版本号
-
-在 `package.json` 中修改 `version` 字段。
 
 ## 注意事项
 
