@@ -93,7 +93,7 @@ npm run electron:portable
 
 ## 许可证
 
-MIT License
+GNU General Public License v2.0
 
 ## 支持开发者
 - 开发者 闻海南
