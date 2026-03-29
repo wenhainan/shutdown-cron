@@ -10,10 +10,26 @@ const { app, BrowserWindow, ipcMain, Tray, Menu, shell } = require('electron');
 const path = require('path');
 const os = require('os');
 const { exec } = require('child_process');
+const fs = require('fs');
 
 let mainWindow;
 let tray;
 let shutdownTimer = null;
+
+// 检查是否已经有实例在运行
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  // 当另一个实例启动时，恢复当前实例的窗口
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -36,7 +52,27 @@ function createWindow() {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    // 尝试多种可能的路径
+    let indexPath = null;
+
+    // 1. 检查应用目录下的 dist
+    let appDistPath = path.join(__dirname, 'dist', 'index.html');
+    if (fs.existsSync(appDistPath)) {
+      indexPath = appDistPath;
+    }
+
+    // 2. 检查项目根目录下的 dist（打包后的位置）
+    let rootDistPath = path.join(path.dirname(__dirname), 'dist', 'index.html');
+    if (!indexPath && fs.existsSync(rootDistPath)) {
+      indexPath = rootDistPath;
+    }
+
+    // 3. 如果都找不到，直接加载项目根目录的 index.html
+    if (!indexPath) {
+      indexPath = path.join(__dirname, 'index.html');
+    }
+
+    mainWindow.loadFile(indexPath);
   }
 }
 

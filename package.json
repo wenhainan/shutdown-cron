@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "electron:dev": "vite build && electron . --enable-logging --v=1",
     "electron:build": "vite build && electron-builder",
-    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules",
+    "electron:package": "vite build && electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite --ignore=node_modules --extra-resource=dist --icon=public/logo.ico",
     "electron:installer": "node build-installer.js"
   },
   "dependencies": {
@@ -44,7 +44,8 @@
       "target": "nsis"
     },
     "nsis": {
-      "oneClick": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "海豚定时关机"

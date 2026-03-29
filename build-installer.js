@@ -1,22 +1,37 @@
 const createWindowsInstaller = require('electron-winstaller').createWindowsInstaller;
 const path = require('path');
+const fs = require('fs');
 
 async function createInstaller() {
   try {
     console.log('正在生成Windows安装包...');
 
+    // 获取应用目录路径（优先检查 dist 目录）
+    let appDir = path.join(__dirname, 'dist', 'shutdown-cron-win32-x64');
+
+    // 如果 dist 目录下没有，尝试 build 目录下
+    if (!fs.existsSync(appDir)) {
+      appDir = path.join(__dirname, 'build', 'shutdown-cron-win32-x64');
+    }
+
+    // 检查应用目录是否存在
+    if (!fs.existsSync(appDir)) {
+      throw new Error('应用目录不存在，请先运行 electron:package 命令');
+    }
+
     await createWindowsInstaller({
-      appDirectory: path.join(__dirname, 'dist', 'shutdown-cron-win32-x64'),
+      appDirectory: appDir,
       outputDirectory: path.join(__dirname, 'dist', 'installer'),
-      authors: '闻海南 whndeweilai@163.com',
+      authors: 'Wen Hainan',
       exe: 'shutdown-cron.exe',
       name: 'ShutdownCron',
-      description: '海豚定时关机 ,轻量级高颜值实用定时关机软件',
+      description: 'Shutdown Timer',
       version: require('./package.json').version,
-      noMsi: false,
-      setupExe: '海豚定时关机安装包.exe',
+      noMsi: true,
+      setupExe: 'ShutdownCronSetup.exe',
       createDesktopShortcut: true,
-      createStartMenuShortcut: true
+      createStartMenuShortcut: true,
+      shortcutName: 'ShutdownCron'
     });
 
     console.log('Windows安装包生成成功！');

@@ -10,7 +10,9 @@
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/main.js",
-            "args": ["--enable-logging"],
+            "args": [
+                "--enable-logging"
+            ],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -54,14 +56,49 @@
                 "nodeIntegration": false,
                 "preload": "${workspaceFolder}/preload.js"
             }
+        },
+        {
+            "name": "Build: Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run electron:package",
+            "cwd": "${workspaceFolder}",
+            "presentation": {
+                "group": "build",
+                "order": 1
+            }
+        },
+        {
+            "name": "Build: Installer",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run electron:installer",
+            "cwd": "${workspaceFolder}",
+            "presentation": {
+                "group": "build",
+                "order": 2
+            }
         }
     ],
     "compounds": [
         {
             "name": "Electron: All",
-            "configurations": ["Electron: Main", "Electron: Renderer"],
+            "configurations": [
+                "Electron: Main",
+                "Electron: Renderer"
+            ],
             "presentation": {
                 "order": 1
+            }
+        },
+        {
+            "name": "Build: Full",
+            "configurations": [
+                "Build: Package",
+                "Build: Installer"
+            ],
+            "presentation": {
+                "order": 2
             }
         }
     ]
