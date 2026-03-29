@@ -60,14 +60,14 @@ function createWindow() {
 
     mainWindow = new BrowserWindow({
       width: 500,
-      height: 700,
+      height: 720,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         nodeIntegration: false,
         contextIsolation: true
       },
       resizable: false,
-      title: '定时关机软件',
+      title: '海豚定时关机',
       icon: path.join(__dirname, 'public', 'app.ico'),
       frame: false,  // 去掉原生工具栏
       transparent: false,  // 非透明窗口

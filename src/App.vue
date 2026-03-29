@@ -298,7 +298,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  padding-top: 52px; /* 为工具栏留出空间 */
+  padding-top: 32px; /* 为工具栏留出空间 */
   box-sizing: border-box;
 }
 
