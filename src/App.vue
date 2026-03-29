@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 自定义工具栏 -->
     <div class="title-bar">
-      <div class="title">定时关机软件</div>
+      <div class="title">海豚定时关机</div>
       <div class="title-buttons">
         <button class="title-btn minimize-btn" @click="minimizeWindow">
           <span class="btn-icon">—</span>
@@ -59,14 +59,14 @@
     </div>
     
     <div class="custom-time">
-      <h3>关机时刻设置</h3>
+      <h3>关机时间设置</h3>
       <div class="input-group time-picker">
         <select v-model="customHour" :disabled="isTimerRunning">
-          <option v-for="hour in 23" :key="hour" :value="hour">{{ hour.toString().padStart(2, '0') }}</option>
+          <option v-for="hour in 24" :key="hour - 1" :value="hour - 1">{{ (hour - 1).toString().padStart(2, '0') }}</option>
         </select>
         <span>:</span>
         <select v-model="customMinute" :disabled="isTimerRunning">
-          <option v-for="minute in 59" :key="minute" :value="minute">{{ minute.toString().padStart(2, '0') }}</option>
+          <option v-for="minute in 60" :key="minute - 1" :value="minute - 1">{{ (minute - 1).toString().padStart(2, '0') }}</option>
         </select>
         <button @click="startCustomTimeShutdown" :disabled="isTimerRunning">设置</button>
       </div>
@@ -94,7 +94,7 @@ export default {
     return {
       isTimerRunning: false,
       remainingTime: 0,
-      customMinutes: 0,
+      customMinutes: 30,
       customHour: (() => {
         const now = new Date()
         const minutes = now.getMinutes() + 15
@@ -421,6 +421,7 @@ button:disabled {
   border-radius: 5px;
   font-size: 16px;
   min-width: 70px;
+  flex: 1;
 }
 
 .time-picker span {
