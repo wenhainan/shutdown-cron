@@ -237,6 +237,11 @@ function cancelShutdown() {
   // 取消系统关机命令
   exec('shutdown /a', (error, stdout, stderr) => {
     if (error) {
+      // 如果错误是"没有正在进行的关机操作"或包含错误码1116，则忽略
+      if (error.message.includes('1116') || error.message.includes('没有正在进行的关机操作') || error.message.includes('No shutdown in progress')) {
+        console.log('没有正在进行的关机操作');
+        return;
+      }
       console.error(`取消关机错误: ${error}`);
       return;
     }

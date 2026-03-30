@@ -32,6 +32,9 @@
       <div class="status" v-else>
         暂未设置
       </div>
+      <div class="shutdown-time" v-if="shutdownTime">
+        关机时间：{{ shutdownTime }}
+      </div>
     </div>
     
     <div class="preset-times">
@@ -52,6 +55,8 @@
           v-model.number="customMinutes" 
           placeholder="输入分钟数"
           min="1"
+          max="1440"
+          @input="validateCustomMinutes"
           :disabled="isTimerRunning"
         >
         <button @click="startCustomShutdown" :disabled="isTimerRunning || !customMinutes">开始</button>
@@ -129,9 +134,25 @@
           <p><strong>网站：</strong><a href="https://www.waytomilky.com" target="_blank">https://www.waytomilky.com</a></p>
         </div>
       </div>
-      <!-- <div class="modal-footer">
+      <div class="modal-footer">
         <button class="ok-btn" @click="showAboutModal = false">确定</button>
-      </div> -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- 警告弹窗 -->
+  <div class="modal-overlay" v-if="showWarningModal" @click="showWarningModal = false">
+    <div class="modal-content warning-modal" @click.stop>
+      <div class="modal-header">
+        <h3>提示</h3>
+        <button class="close-btn" @click="showWarningModal = false">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>{{ warningMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="ok-btn" @click="showWarningModal = false">确定</button>
+      </div>
     </div>
   </div>
   </div>
@@ -157,7 +178,10 @@ export default {
       })(),
       countdownInterval: null,
       showExitButton: false,
-      showAboutModal: false
+      showAboutModal: false,
+      showWarningModal: false,
+      warningMessage: '',
+      shutdownTime: null
     }
   },
   methods: {
@@ -165,9 +189,21 @@ export default {
       await this.startShutdown(minutes)
     },
     
+    validateCustomMinutes() {
+      if (this.customMinutes > 1440) {
+        this.warningMessage = '最大输入时间为1440分钟（24小时）'
+        this.showWarningModal = true
+        this.customMinutes = 1440
+      }
+    },
+    
     async startCustomShutdown() {
-      if (this.customMinutes > 0) {
+      if (this.customMinutes > 0 && this.customMinutes <= 1440) {
         await this.startShutdown(this.customMinutes)
+      } else if (this.customMinutes > 1440) {
+        this.warningMessage = '最大输入时间为1440分钟（24小时）'
+        this.showWarningModal = true
+        this.customMinutes = 1440
       }
     },
     
@@ -195,6 +231,11 @@ export default {
         this.isTimerRunning = true
         this.remainingTime = totalSeconds
         
+        // 计算关机时间
+        const shutdownDate = new Date()
+        shutdownDate.setMinutes(shutdownDate.getMinutes() + minutes)
+        this.shutdownTime = shutdownDate.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+        
         // 启动倒计时
         this.countdownInterval = setInterval(() => {
           this.remainingTime--
@@ -215,6 +256,7 @@ export default {
         await window.electronAPI.cancelShutdown()
         this.isTimerRunning = false
         this.remainingTime = 0
+        this.shutdownTime = null
         
         if (this.countdownInterval) {
           clearInterval(this.countdownInterval)
@@ -421,10 +463,11 @@ h1 {
 .timer-display {
   width: 100%;
   max-width: 300px;
-  height: 100px;
+  height: 120px;
   background-color: #fff;
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
@@ -440,6 +483,12 @@ h1 {
 .status {
   font-size: 24px;
   color: #666;
+}
+
+.shutdown-time {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
 }
 
 .preset-times, .custom-time {
