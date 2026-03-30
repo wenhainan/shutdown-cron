@@ -428,6 +428,7 @@ h1 {
 .logo-container {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 

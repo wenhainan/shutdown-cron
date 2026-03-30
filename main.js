@@ -60,7 +60,7 @@ function createWindow() {
 
     mainWindow = new BrowserWindow({
       width: 500,
-      height: 720,
+      height: 730,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         nodeIntegration: false,
